@@ -17,10 +17,11 @@ const getters = {
       }, 0);
   },
   getResource: ()=>{
+    let now = new Date();
     return state.resource.find(p=>new Date(p.AStartDate) > new Date([now.getFullYear(), now.getMonth()+1, now.getDate()].join('/')));
   },
   totalcount: ()=>{
-    return state.resource.length;
+    return state.resource.length
   }
 }
 

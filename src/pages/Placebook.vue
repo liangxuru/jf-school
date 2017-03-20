@@ -20,7 +20,7 @@
 		<div class="footer">
 			<div class="price">
 				<span class="total f24">总额: </span><span class="cPrice f36">{{ amount | currency }}</span>
-				<a class="mycar icon-icon24"><i class="order-numbers" id="carNum">{{ totalcount }}</i></a>
+				<a class="mycar icon-icon24" ref="carIcon"><i class="order-numbers" id="carNum">{{ totalcount }}</i></a>
 			</div>
 			<a class="next" @click="Submit()">下一步</a>
 		</div>
