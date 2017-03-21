@@ -18,7 +18,9 @@ const getters = {
   },
   getResource: ()=>{
     let now = new Date();
-    return state.resource.find(p=>new Date(p.AStartDate) > new Date([now.getFullYear(), now.getMonth()+1, now.getDate()].join('/')));
+    return state.resource.filter((item)=>{
+      return new Date(item.AStartDate) > new Date([now.getFullYear(), now.getMonth()+1, now.getDate()].join('/'))
+    });
   },
   totalcount: ()=>{
     return state.resource.length
@@ -42,6 +44,9 @@ const actions = {
   setResource({ commit}, item){
     commit(types.SET_RESOURCE, item);
   }, 
+  clearResource({ commit }){
+    commit(types.CLEAR_RESOURCE);
+  }
 }
 
 // mutations
@@ -72,8 +77,16 @@ const mutations = {
       item.AStatus =2;
     }else{
       item.AStatus= 1;
-      state.resource.push(item)
+      state.resource.push(item);
     }
+  },
+  [types.CLEAR_RESOURCE] (state){
+    state.resource.map((item)=>{
+      state.resource= state.resource.filter((it)=>{
+        return it != item
+      });
+      item.AStatus =2;
+    });
   }
 }
 

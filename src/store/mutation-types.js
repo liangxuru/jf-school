@@ -7,3 +7,4 @@ export const CHANGE_TAB = 'CHANGE_TAB'
 export const CHANGE_DATE = 'CHANGE_DATE'
 
 export const SET_RESOURCE = 'SET_RESOURCE'
+export const CLEAR_RESOURCE = 'CLEAR_RESOURCE'

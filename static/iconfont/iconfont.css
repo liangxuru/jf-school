@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?t23avy');
-  src:  url('fonts/icomoon.eot?t23avy#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?t23avy') format('truetype'),
-    url('fonts/icomoon.woff?t23avy') format('woff'),
-    url('fonts/icomoon.svg?t23avy#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?n2hkyf');
+  src:  url('fonts/icomoon.eot?n2hkyf#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?n2hkyf') format('truetype'),
+    url('fonts/icomoon.woff?n2hkyf') format('woff'),
+    url('fonts/icomoon.svg?n2hkyf#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-icon37:before {
+  content: "\e929";
+}
+.icon-icon36:before {
+  content: "\e928";
+}
+.icon-icon34:before {
+  content: "\e927";
+}
+.icon-icon35:before {
+  content: "\e925";
+}
+.icon-over:before {
+  content: "\e921";
+}
+.icon-right:before {
+  content: "\e922";
+}
+.icon-order:before {
+  content: "\e923";
+}
+.icon-youhuiquan:before {
+  content: "\e924";
+}
+.icon-bag:before {
+  content: "\e926";
+}
 .icon-search:before {
   content: "\e920";
 }

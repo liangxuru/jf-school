@@ -20,10 +20,31 @@
 		<div class="footer">
 			<div class="price">
 				<span class="total f24">总额: </span><span class="cPrice f36">{{ amount | currency }}</span>
-				<a class="mycar icon-icon24" ref="carIcon"><i class="order-numbers" id="carNum">{{ totalcount }}</i></a>
+				<a class="mycar icon-icon24" ref="carIcon" @click="openShoppingCar()"><i class="order-numbers" id="carNum">{{ totalcount }}</i></a>
 			</div>
 			<a class="next" @click="Submit()">下一步</a>
 		</div>
+		<div class="sp_car" v-if="showCar">
+			<header>
+		        <span class="sp_words"> 购物车</span>
+		        <div class="clear">
+		          <svg>
+		            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-remove"></use>
+		          </svg>
+		          <span class="icon-icon36" @click="clearShoppingCar()">清空</span>
+		        </div>
+	      	</header>
+			<ul class="sp_content">
+				<li v-for='shop in getResource' :key="shop.AGround_Time_AId">
+			        <span class="info f20">
+				        <a class="flex"><span class="sub">{{ shop.AStartDate | DateFormat('MM-dd')  }}</span> {{ shop.AStringTime }} - {{ shop.AEndStringTime }}</a>
+				        <span class="info"><a class="flex">{{ shop.AGroundFieldAName }}</a>
+				        <a class="cPrice">{{ shop.APrice | currency }}</a><i class="icon-icon37" @click="removeShoppingCar(shop)"></i></span>
+			        </span>
+		        </li>
+			</ul>
+		</div>
+		<div class="mask" v-if="showCar" @click="closeShoppingCar()"></div>
 	</div>
 </template>
 <script>
@@ -45,7 +66,8 @@
 				prices: {
                 	vertical: [],
                 	horizontal: []
-                }
+                },
+                showCar: false
 			}
 		},
 		components: {
@@ -61,7 +83,7 @@
 			...mapGetters(['amount', 'totalcount', 'getResource'])
 		},
 		methods: {
-			...mapActions(['setLoading']),
+			...mapActions(['setLoading', 'setResource', 'clearResource']),
 			getWeekday(date){
 				var curr = new Date() + '';
 				if(date.formatDate('yyyy-MM-dd') == curr.formatDate('yyyy-MM-dd')){
@@ -71,17 +93,28 @@
                 }
 			},
 			GetResourcePrice(_date){
-				var self = this;
 				this.showprice = false;
 				return Request.GetResourcePrice({
 	            	date: _date,
                     productId: this.productId,
                     memberId: this.user.memID
-	            }).then((data)=>{
-	            	self.prices.vertical = data.ATime;
-                    self.prices.horizontal = data.AGroundFieldFront;
+	            }).then(function(data){
+	            	this.prices.vertical = data.ATime;
+                    this.prices.horizontal = data.AGroundFieldFront;
                     this.showprice = true;
-	            })
+	            }.bind(this));
+			},
+			openShoppingCar(){
+				this.showCar = true;
+			},
+			closeShoppingCar(){
+				this.showCar = false;
+			},
+			removeShoppingCar(item){
+				this.setResource(item);
+			},
+			clearShoppingCar(){
+				this.clearResource();
 			}
 		},
 		watch: {
@@ -187,7 +220,7 @@
 	left: 0;
 	bottom: 0;
 	right: 0;
-	z-index: 10;
+	z-index: 103;
 	margin-top: 0.78rem;
 }
 .footer a{
@@ -231,5 +264,51 @@
 }
 .footer .total{
 	padding-left: 1.16rem;
+}
+</style>
+<style lang="less">
+.sp_car{
+	position: fixed;
+	bottom: 5.8rem;
+	left: 0;
+	right: 0;
+	background-color: #fff;
+	z-index: 103;
+	padding: 0.78rem 0;
+	header{
+	    border-bottom: 1px solid #eee;
+	    height: 2.4rem; 
+	    line-height: 2.4rem;
+	    color:#666;
+	    padding: 0 .78rem;
+	    .clear{
+	      float:right;
+	      font-size:.4rem;
+	      svg{
+	        width:.5rem;
+	        height:.5rem;
+	        vertical-align:text-top;
+	      }
+	    }
+  }
+  .sp_content{
+  	padding: 0 .78rem;
+  	li{
+  		height: 2.4rem;
+  	 	line-height: 2.4rem;
+  	 	.info{
+			display: -webkit-box;
+			display: flex;
+			-webkit-box-flex: 1;
+			flex: 1;
+		    align-items: center;
+			.flex{
+				-webkit-box-flex: 1;
+				flex: 1;
+				text-align: left;
+			}
+		}
+  	}
+  }
 }
 </style>
