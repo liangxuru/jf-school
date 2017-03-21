@@ -28,9 +28,6 @@
 			<header>
 		        <span class="sp_words"> 购物车</span>
 		        <div class="clear">
-		          <svg>
-		            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-remove"></use>
-		          </svg>
 		          <span class="icon-icon36" @click="clearShoppingCar()">清空</span>
 		        </div>
 	      	</header>
@@ -105,16 +102,20 @@
 	            }.bind(this));
 			},
 			openShoppingCar(){
-				this.showCar = true;
+				if(this.getResource.length){
+					this.showCar = true;
+				}
 			},
 			closeShoppingCar(){
 				this.showCar = false;
 			},
 			removeShoppingCar(item){
 				this.setResource(item);
+				if(!this.getResource.length) this.showCar = false;
 			},
 			clearShoppingCar(){
 				this.clearResource();
+				this.showCar = false;
 			}
 		},
 		watch: {
@@ -222,22 +223,24 @@
 	right: 0;
 	z-index: 103;
 	margin-top: 0.78rem;
+	overflow: hidden;
 }
 .footer a{
 	display: inline-block;
 }
 .footer .next{
-	width: 38%;
+	width: 40%;
 	color: #fff;
 	background-color: #00bcf7;
 	text-align: center;
 	position: relative;
-	top: -3px;
+	float: left;
 }
 .footer .price{
 	display: inline-block;
 	width: 60%;
 	position: relative;
+	float: left;
 }
 .footer .mycar{
 	width: 51px;
