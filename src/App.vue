@@ -13,11 +13,10 @@
 </template>
 
 <script>
-import store from 'store/index'
+
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'app',
-  store,
   computed: mapState({
     isLoading: state => state.common.isLoading
   }),

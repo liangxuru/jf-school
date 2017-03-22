@@ -6,7 +6,8 @@ const state = {
   product: new Map(),
   tabindex: 0,
   placedate: '',
-  resource: []
+  resource: [],
+  currSport: 0
 }
 
 // getters
@@ -24,6 +25,17 @@ const getters = {
   },
   totalcount: ()=>{
     return state.resource.length
+  },
+  getGroupResource: ()=>{
+    let _dateMap = new Map();
+    state.resource.map((item)=>{
+      if(_dateMap.has(item.AStartDate)){
+        _dateMap.set(item.AStartDate, _dateMap[item.AStartDate].push(item));
+      }else{
+        _dateMap.set(item.AStartDate, [].push(item));
+      }
+    });
+    return _dateMap;
   }
 }
 
@@ -57,6 +69,7 @@ const mutations = {
     }else{
       state.product.set(id, resource)
     }
+    state.currSport = id;
   },
   [types.CHANGE_TAB] (state, value){
      state.tabindex = value

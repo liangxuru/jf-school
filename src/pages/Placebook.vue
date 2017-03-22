@@ -17,6 +17,7 @@
 			</div>
 		</div>
 		<div style="height: 5.8rem"></div>
+		<!-- 页尾 -->
 		<div class="footer">
 			<div class="price">
 				<span class="total f24">总额: </span><span class="cPrice f36">{{ amount | currency }}</span>
@@ -24,6 +25,7 @@
 			</div>
 			<a class="next" @click="Submit()">下一步</a>
 		</div>
+		<!-- 购物车 -->
 		<div class="sp_car" v-if="showCar">
 			<header>
 		        <span class="sp_words"> 购物车</span>
@@ -41,6 +43,7 @@
 		        </li>
 			</ul>
 		</div>
+		<!-- 蒙版 -->
 		<div class="mask" v-if="showCar" @click="closeShoppingCar()"></div>
 	</div>
 </template>
@@ -51,6 +54,8 @@
 	import calendar from 'components/calendar2'
 	import seletimes from 'components/seletimes'
 	import lazylist from 'lib/lazylist'
+	import { getdate } from 'lib/util'
+	import { default as message } from 'lib/message'
 	export default {
 		name: 'placebook',
 		data(){
@@ -116,6 +121,37 @@
 			clearShoppingCar(){
 				this.clearResource();
 				this.showCar = false;
+			},
+			Submit(){
+				let name="", caculate={};
+                this.getResource.map(function(item){
+                    name = item.AproductID + getdate(item.AStartDate, '') + item.AGroundFieldAId;
+                    if (!caculate[name]) {
+                        caculate[name] = [];
+                    }
+                    caculate[name].push(item.AGround_Time_AId);
+                });
+
+                for (let item in caculate) {
+                    let flag = 0;
+                    caculate[item].map(function (it, ii, arr) {
+                        if (arr.indexOf(it - 1)==-1 && arr.indexOf(it + 1)==-1) {//前后两个数都不存在
+                            flag = 1;
+                            return;
+                        }else if(arr.indexOf(it + 1)==-1&&arr.indexOf(it + 2)>-1){//后一个数存在但后两个数存在
+                            flag = 2;
+                            return;
+                        }
+                    });
+                    if (flag===1) { 
+                        message.error("最小起订一小时"); return; 
+                    }else if(flag===2){
+                        message.error("请不要留下单个半小时"); return;
+                    }
+                }
+                if(this.getResource.length==0) {message.error("您还未选择资源"); return;}
+                debugger;
+                this.$router.go('/placeorder');
 			}
 		},
 		watch: {
