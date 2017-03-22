@@ -3,7 +3,7 @@ import Place from 'pages/place'
 import PlaceInfo from 'pages/placeinfo'
 import PlaceBook from 'pages/placebook'
 import PlaceOrder from 'pages/placeorder'
-// import Success from 'pages/success'
+import Success from 'pages/success'
 
 export default [
 	{
@@ -33,6 +33,7 @@ export default [
 	},
 	{
 		path: '/success',
-		components: resolve => require(['pages/Success.vue'], resolve)
+		name: 'success',
+		components: Success
 	}
 ];
