@@ -36,7 +36,7 @@
 			<ul class="sp_content">
 				<li v-for='shop in getResource' :key="shop.AGround_Time_AId">
 			        <span class="info f20">
-				        <a class="flex"><span class="sub">{{ shop.AStartDate | DateFormat('MM-dd')  }}</span> {{ shop.AStringTime }} - {{ shop.AEndStringTime }}</a>
+				        <a class="flex"><span class="sub">{{ shop.AStartDate | DateFormat('MM/dd')  }}</span> {{ shop.AStringTime }} - {{ shop.AEndStringTime }}</a>
 				        <span class="info"><a class="flex">{{ shop.AGroundFieldAName }}</a>
 				        <a class="cPrice">{{ shop.APrice | currency }}</a><i class="icon-icon37" @click="removeShoppingCar(shop)"></i></span>
 			        </span>
@@ -103,6 +103,20 @@
 	            }).then(function(data){
 	            	this.prices.vertical = data.ATime;
                     this.prices.horizontal = data.AGroundFieldFront;
+
+                    //重置
+                    this.getResource && this.getResource.map(function(item){
+	                    this.prices.horizontal.map(function(ele){
+	                        ele.AGroundResourcePriceList.map(function(element){
+	                            //复位
+	                            if(element.AproductID == item.AproductID && element.AStatus && element.AStartDate == item.AStartDate && element.AGroundFieldAId == item.AGroundFieldAId && element.AGround_Time_AId == item.AGround_Time_AId){
+	                                element.AStatus = 1;
+	                                return false;
+	                            }
+	                        })
+	                        return false;
+	                    });
+	                }.bind(this));
                     this.showprice = true;
 	            }.bind(this));
 			},
@@ -187,12 +201,7 @@
                 self.current = values[0].findIndex((value)=>{
                 	return value.ADate.formatDate("yyyy-MM-dd") == self.currentDate
                 });
-                //重置
-                self.getResource && self.getResource.map(function(item, index){
-                	let hasItem = this.prices.horizontal.find(p=>p==item);
-                	if(hasItem && hasItem.AStatus) hasItem.AStatus = 1;
-                }.bind(this));
-
+                
                 self.showme = true;
                 self.setLoading(false);
 			});

@@ -72,9 +72,11 @@ const actions = {
 // mutations
 const mutations = {
   [types.ADD_SPORTTYPE] (state, id){
-    if(!state.product.has(id)){
-      state.product.set(id, [])
-    }
+    state.resource = [];
+    state.product.set(id, state.resource);
+    // if(!state.product.has(id)){
+    //   state.product.set(id, [])
+    // }
     state.currSport = id;
   },
   [types.CHANGE_TAB] (state, value){

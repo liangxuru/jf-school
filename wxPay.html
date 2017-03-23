@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>支付</title>
+    <link href="./base.css" rel="stylesheet" />
+    <style type="text/css">
+        #payPage{
+            padding-bottom:2rem;
+            display:none;
+        }
+        #payPage .top{
+            text-align:center;
+            padding: 1.5rem 0;
+        }
+        #payPage .top>img{
+            width:9rem;
+        }
+        #payPage .content>ul{
+            background-color:white;
+            border-top:1px solid #dddddd;
+            border-bottom:1px solid #dddddd;
+        }
+        #payPage .content>ul>li{
+            margin-left:2rem;
+            padding:1.5rem 0;
+            border-bottom:1px solid #dddddd;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        #payPage .content>ul>li:last-child{
+            border-bottom:0;
+        }
+
+        #payPage .content>ul>li input{
+            border: 0;
+            outline: 0;
+            width: 55%;
+            max-width:55%;
+            vertical-align: middle;
+        }
+
+        #payPage .content .code{
+            color: #007aff !important;
+        text-align: right;
+        cursor: pointer;
+        width: 40%;
+        padding-right: 1.2rem;
+        display: inline-block;
+        vertical-align: middle;
+        -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #payPage #codeTxt{
+            width: 8rem;
+        }
+
+        #payPage .bottom{
+            margin-top: 3rem;
+            padding:0 1.2rem;
+        }
+
+        #payPage li>span{
+            display:inline-block;
+            vertical-align:middle;
+        }
+        #payPage li>.label{
+            color:#8f9bb3;
+            margin-right:0.5rem;
+            width: 22%;
+            white-space:pre;
+        }
+
+        #payPage  li>span:last-child{
+            width:70%;
+        }
+
+        .red{
+            color:#fe5100;
+        }
+        .green{
+            color:#06bb04;
+        }
+        #payPage .content .code.disabled{
+            color:#8f9bb3 !important;
+        }
+
+        .btn{
+            display: block;
+            height:4rem;
+            line-height:4rem;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="payPage" >
+        <div class="top">
+            <span class="title">为确保订单的有效性,您需要支付如下金额</span>
+        </div>
+        <div class="content">
+            <ul class="noStyle">
+                <li><span class="label">订单编号</span><span id="no"></span></li>
+                <li><span class="label">名称</span><span id="des"></span></li>
+                <li><span class="label">金额</span><span id="money" style="color:#00bcf7;">￥<span>111</span></span></li>
+                <li><span class="label">收款方</span><span id="shop"></span></li>
+            </ul>
+        </div>
+        <div class="bottom">
+            <a class="subBtn btn" style="background-color: #00bcf7">确定支付</a>
+        </div>
+    </div>
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/jweixin.js"></script>
+    <script src="../lib/template.js"></script>
+    <script src="../lib/common.js"></script>
+    <script src="../lib/business.js"></script>
+    <script src="../lib/wxPay.js"></script>
+</body>
+</html>
