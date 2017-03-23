@@ -59,7 +59,8 @@
 				user: state => state.common.user,
 				openid: state => state.common.openid,
 				date: state => state.place.placedate,
-				currsport: state => state.place.currSport
+				currsport: state => state.place.currSport,
+				productId: state => state.place.productid
 			}),
 			...mapGetters(['getEffectResource']),
 			bussTotal: {
@@ -185,10 +186,6 @@
                             }else if(data.payStatus === 1){
                                 //已支付
                                self.$router.replace({path: '/success', query: {orderCode: data.orderCode}});
-                                // var jpUrl = getServerURL() + "Mobile/jf/pages/index.html#!/success/:orderCode/:accountName/?accountName=" + getLocalData("currentAN") + "&orderCode=" + data.data.orderCode;
-                                
-                                // location.replace(jpUrl);
-                                //self.$router.go({path:'/success',name: 'success', query: {orderCode: data.data.orderCode,accountName: self.$route.query.accountName}});
                             }
                             self.clearResource();
 	                    });
@@ -198,8 +195,10 @@
             payAgin: function(orderCode){
                 //未支付,转微信
                 var current = getCurrentData();
-                var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + current.payAppID + "&redirect_uri=" +  encodeURIComponent(getServerURL() + "Mobile/JF/pages/wxpay.html?accountName=" + getLocalData("currentAN") + "&orderCode=" + orderCode) + "&showwxpaytitle=1&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
-                history.replaceState(null,'','index.html#!/placebook/:productId/:date/:accountName?accountName='+getLocalData("currentAN")+'&date='+this.date+'&productId=' + this.currsport);
+
+                var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + current.payAppID + "&redirect_uri=" +  encodeURIComponent(getServerURL() + "wxpay.html?accountName=" + getLocalData("currentAN") + "&orderCode=" + orderCode) + "&showwxpaytitle=1&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+
+                history.replaceState(null, '', `index.html#/placebook/?productId=${this.productId}&date=${this.date}&accountName=${getLocalData("currentAN")}`);
                 location.replace(url);
             }
         },

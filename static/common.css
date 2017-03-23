@@ -140,7 +140,7 @@ ul{
 }
 /*<!-- 蒙版 -->*/
 .mask {
-    z-index: 102;
+    z-index: 2;
     background-color: rgba(0,0,0,.2);
     position: fixed;
     left: 0;

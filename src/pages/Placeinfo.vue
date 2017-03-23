@@ -61,7 +61,7 @@
 			spid: state => state.place.address.id,
 			tabindex: state => state.place.tabindex
 		}),
-		methods: mapActions(['setLoading']),
+		methods: mapActions(['setLoading', 'setProductId']),
 		created(){
 			this.setLoading(true);
 			Request.GetProductsBySportType({
@@ -69,6 +69,7 @@
 				spid: this.spid
 			}).then((data)=>{
 				this.productId = data && data.length && data[0].productId || 0;
+				this.setProductId(this.productId);
 				return this.productId;
 			}).then((productId)=>{
 				lazylist([

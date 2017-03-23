@@ -85,7 +85,7 @@
 			...mapGetters(['amount', 'totalcount', 'getResource'])
 		},
 		methods: {
-			...mapActions(['setLoading', 'setResource', 'clearResource']),
+			...mapActions(['setLoading', 'setResource', 'clearResource', 'changeDate']),
 			getWeekday(date){
 				var curr = new Date() + '';
 				if(date.formatDate('yyyy-MM-dd') == curr.formatDate('yyyy-MM-dd')){
@@ -99,7 +99,7 @@
 				return Request.GetResourcePrice({
 	            	date: _date,
                     productId: this.productId,
-                    memberId: this.user.memID
+                    memberId: getCurrentData().userData.memID
 	            }).then(function(data){
 	            	this.prices.vertical = data.ATime;
                     this.prices.horizontal = data.AGroundFieldFront;
@@ -201,6 +201,7 @@
                 self.current = values[0].findIndex((value)=>{
                 	return value.ADate.formatDate("yyyy-MM-dd") == self.currentDate
                 });
+                self.changeDate(self.currentDate);
                 
                 self.showme = true;
                 self.setLoading(false);
@@ -314,8 +315,6 @@
 .footer .total{
 	padding-left: 1.16rem;
 }
-</style>
-<style lang="less">
 .sp_car{
 	position: fixed;
 	bottom: 5.8rem;
@@ -324,40 +323,34 @@
 	background-color: #fff;
 	z-index: 103;
 	padding: 0.78rem 0;
-	header{
-	    border-bottom: 1px solid #eee;
-	    height: 2.4rem; 
-	    line-height: 2.4rem;
-	    color:#666;
-	    padding: 0 .78rem;
-	    .clear{
-	      float:right;
-	      font-size:.4rem;
-	      svg{
-	        width:.5rem;
-	        height:.5rem;
-	        vertical-align:text-top;
-	      }
-	    }
+  }
+  .sp_car header{
+  	border-bottom: 1px solid #eee;
+    height: 2.4rem; 
+    line-height: 2.4rem;
+    color:#666;
+    padding: 0 .78rem;
+  }
+  .sp_car header .clear{
+  	float: right;
   }
   .sp_content{
   	padding: 0 .78rem;
-  	li{
-  		height: 2.4rem;
-  	 	line-height: 2.4rem;
-  	 	.info{
-			display: -webkit-box;
-			display: flex;
-			-webkit-box-flex: 1;
-			flex: 1;
-		    align-items: center;
-			.flex{
-				-webkit-box-flex: 1;
-				flex: 1;
-				text-align: left;
-			}
-		}
-  	}
   }
-}
+  .sp_content li{
+  	height: 2.4rem;
+  	line-height: 2.4rem;
+  }
+  .sp_content li .info{
+  	display: -webkit-box;
+	display: flex;
+	-webkit-box-flex: 1;
+	flex: 1;
+    align-items: center;
+  }
+  .sp_content li .info .flex{
+  	-webkit-box-flex: 1;
+	flex: 1;
+	text-align: left;
+  }
 </style>

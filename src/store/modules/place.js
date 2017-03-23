@@ -7,7 +7,8 @@ const state = {
   tabindex: 0,
   placedate: '',
   resource: [],
-  currSport: 0
+  currSport: 0,
+  productid: 0
 }
 
 // getters
@@ -66,6 +67,9 @@ const actions = {
   },
   setResourceState({ commit}, item){
     commit(types.SET_RESOURCE_STATE, item);
+  },
+  setProductId({ commit }, id){
+    commit(types.SET_PRODUCTID, id);
   }
 }
 
@@ -112,6 +116,9 @@ const mutations = {
       });
       item.AStatus =2;
     });
+  },
+  [types.SET_PRODUCTID] (state, id){
+    state.productid = id;
   }
 }
 
