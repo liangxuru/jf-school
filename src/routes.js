@@ -29,11 +29,11 @@ export default [
 	{
 		path: '/placeorder',
 		name: 'placeorder',
-		components: PlaceOrder
+		component: PlaceOrder
 	},
 	{
 		path: '/success',
 		name: 'success',
-		components: Success
+		component: Success
 	}
 ];

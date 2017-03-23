@@ -150,8 +150,8 @@
                     }
                 }
                 if(this.getResource.length==0) {message.error("您还未选择资源"); return;}
-                debugger;
-                this.$router.go('/placeorder');
+                
+                this.$router.push('/placeorder');
 			}
 		},
 		watch: {
@@ -188,9 +188,10 @@
                 	return value.ADate.formatDate("yyyy-MM-dd") == self.currentDate
                 });
                 //重置
-                self.getResource && self.getResource.map((item, index)=>{
-                	this.prices.horizontal.find(p=>p==item).AStatus = 1
-                });
+                self.getResource && self.getResource.map(function(item, index){
+                	let hasItem = this.prices.horizontal.find(p=>p==item);
+                	if(hasItem && hasItem.AStatus) hasItem.AStatus = 1;
+                }.bind(this));
 
                 self.showme = true;
                 self.setLoading(false);

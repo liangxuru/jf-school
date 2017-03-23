@@ -24,3 +24,5 @@ URL.ONE_PRODUCT = `${root.host}/Ground/GetProductById`;
 URL.WEEKDAYS = `${root.host}/Ground/GetWeekdays`;
 //根据日期获取某一天价格资源
 URL.RESOURCE_PRICE = `${root.host}/Ground/GetResourcePrice`;
+// 会员信息
+URL.MEMBER_CARD = `${root.host}/Ground/GetMemberCardInfo`;

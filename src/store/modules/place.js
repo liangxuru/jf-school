@@ -23,16 +23,21 @@ const getters = {
       return new Date(item.AStartDate) > new Date([now.getFullYear(), now.getMonth()+1, now.getDate()].join('/'))
     });
   },
+  getEffectResource: ()=>{
+    return state.resource.filter((item)=>{
+      return item.AStatus === 1
+    });
+  },
   totalcount: ()=>{
     return state.resource.length
   },
   getGroupResource: ()=>{
-    let _dateMap = new Map();
+    let _dateMap = {};
     state.resource.map((item)=>{
-      if(_dateMap.has(item.AStartDate)){
-        _dateMap.set(item.AStartDate, _dateMap[item.AStartDate].push(item));
+      if(_dateMap[item.AStartDate]){
+        _dateMap[item.AStartDate].push(item);
       }else{
-        _dateMap.set(item.AStartDate, [].push(item));
+        _dateMap[item.AStartDate] = [item];
       }
     });
     return _dateMap;
@@ -58,6 +63,12 @@ const actions = {
   }, 
   clearResource({ commit }){
     commit(types.CLEAR_RESOURCE);
+  },
+  setResourceState({ commit}, item){
+    commit(types.SET_RESOURCE_STATE, item);
+  },
+  caculatePay({ commit }){
+    commit(types.CACULATE_PAY);
   }
 }
 
@@ -66,8 +77,6 @@ const mutations = {
   [types.ADD_SPORTTYPE] (state, id){
     if(!state.product.has(id)){
       state.product.set(id, [])
-    }else{
-      state.product.set(id, resource)
     }
     state.currSport = id;
   },
@@ -93,12 +102,21 @@ const mutations = {
       state.resource.push(item);
     }
   },
+  [types.SET_RESOURCE_STATE] (state, item){
+    let statu = state.resource.find(p=>p == item);
+    statu.AStatus =3- statu.AStatus;
+  },
   [types.CLEAR_RESOURCE] (state){
     state.resource.map((item)=>{
       state.resource= state.resource.filter((it)=>{
         return it != item
       });
       item.AStatus =2;
+    });
+  },
+  [types.CACULATE_PAY] (state){
+    state.resource.filter(function(item){
+      return item.AStatus === 1
     });
   }
 }

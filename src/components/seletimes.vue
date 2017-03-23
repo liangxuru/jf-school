@@ -41,48 +41,53 @@
             compute_state: (it)=>{
 				return it.AStatus===1?'1': (it.AOccupiedFrom==2||it.AOccupiedFrom==3?'4':'');
 			},
-            ball_fly (e) {
-              // 被点元素宽高
-              var bound = e.target.getBoundingClientRect(); // 被点元素位置
-              // 创造元素
-              var qiu = document.createElement('div');
-              qiu.className = 'qiu';
-              qiu.style.top = bound.top + 'px';
-              qiu.style.left = bound.left + 'px';
-              document.body.appendChild(qiu);
-              // 目标元素位置
-              var dsa = this.$parent.$refs.carIcon;
-              var mubiao = dsa.getBoundingClientRect();
-              var mubiaoT = mubiao.top;
-              var mubiaoL = mubiao.left;
-              var timer = null;
-              // top差值 left差值
-              var chaTop = mubiaoT - bound.top;
-              // 要减掉目标宽度一半 让落点对准目标中心
-              var chaLeft = bound.left - mubiaoL - dsa.offsetWidth / 2;
-              // 规定上抛初速度为 top 差值的55分之1
-              var g = chaTop / 55;
-              // 规定上抛初速度为 top 差值的15分之1
-              var vTop = chaTop / 15;
-              timer = setInterval(function(){
-                qiu.style.top = (qiu.getBoundingClientRect().top + (-vTop + g)) + 'px';
-                qiu.style.left = (qiu.getBoundingClientRect().left + (-chaLeft / 14)) + 'px';
-                // 每次 g 对速度的影响
-                vTop -= g;
-                if (qiu.getBoundingClientRect().top >= mubiaoT) {
-                  clearInterval(timer);
-                  qiu.parentNode.removeChild(qiu);
-                  this.$parent.$refs.carIcon.classList.add('tantantan');
-                }
-              }.bind(this), 1000 / 25);
-            }
+      ball_fly (e) {
+        // 被点元素宽高
+        var bound = e.target.getBoundingClientRect(); // 被点元素位置
+        // 创造元素
+        var qiu = document.createElement('div');
+        qiu.className = 'qiu';
+        qiu.style.top = bound.top + 'px';
+        qiu.style.left = bound.left + 'px';
+        document.body.appendChild(qiu);
+        // 目标元素位置
+        var dsa = this.$parent.$refs.carIcon;
+        var mubiao = dsa.getBoundingClientRect();
+        var mubiaoT = mubiao.top;
+        var mubiaoL = mubiao.left;
+        var timer = null;
+        // top差值 left差值
+        var chaTop = mubiaoT - bound.top;
+        // 要减掉目标宽度一半 让落点对准目标中心
+        var chaLeft = bound.left - mubiaoL - dsa.offsetWidth / 2;
+        // 规定上抛初速度为 top 差值的55分之1
+        var g = chaTop / 55;
+        // 规定上抛初速度为 top 差值的15分之1
+        var vTop = chaTop / 15;
+        timer = setInterval(function(){
+          qiu.style.top = (qiu.getBoundingClientRect().top + (-vTop + g)) + 'px';
+          qiu.style.left = (qiu.getBoundingClientRect().left + (-chaLeft / 14)) + 'px';
+          // 每次 g 对速度的影响
+          vTop -= g;
+          if (qiu.getBoundingClientRect().top >= mubiaoT) {
+            clearInterval(timer);
+            qiu.parentNode.removeChild(qiu);
+            this.$parent.$refs.carIcon.classList.add('tantantan');
+          }
+        }.bind(this), 1000 / 25);
+      }
 		},
-        mounted(){
-            // 给购物车添加animationend事件，动画结束后去掉有animation的class
-            this.$parent.$refs.carIcon.addEventListener('animationend', () => {
-              this.$parent.$refs.carIcon.classList.remove('tantantan');
-            }, false);
-        }
+    mounted(){
+        // 给购物车添加animationend事件，动画结束后去掉有animation的class
+        this.$parent.$refs.carIcon.addEventListener('animationend', function() {
+          this.$parent.$refs.carIcon.classList.remove('tantantan');
+        }.bind(this), false);
+    },
+    destroyed(){
+      this.$parent.$refs.carIcon.removeEventListener('animationend', function() {
+          this.$parent.$refs.carIcon.classList.remove('tantantan');
+        }.bind(this), false);
+    }
 	}
 </script>
 <style scoped>

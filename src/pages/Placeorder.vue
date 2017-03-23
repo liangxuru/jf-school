@@ -3,7 +3,19 @@
 		<div class="header">
 		    <div class="part f28">
 		        <div><i :class="`${product.icon} cPrice ithem`"></i>{{ product.name }}</div>
-		        
+		        <template v-for="(resource, date, index) in getGroupResource" v-if="index < more">
+			        <div class="sub date">{{ date | DateFormat('yyyy-MM-dd') }} {{ compute_week(date) }}</div>
+			        <ul class="productlist">
+				        <li v-for='(shop, index) in resource' v-show="inermore?index<3:true" :key="shop.AGround_Time_AId">
+					        <i :class="`icon-icon31 ${shop.AStatus == 1?'cPrice':'sub'}`" @click="select(shop)"></i>
+					        <span class="info">
+						        <a class="flex">{{ shop.AStringTime}} - {{ shop.AEndStringTime }}</a>
+						        <span class="info"><a class="flex">{{ shop.AGroundFieldAName }}</a>
+						        <a class="cPrice">{{ shop.APrice | currency }}</a></span>
+					        </span>
+				        </li>
+			        </ul>
+		        </template>
 		    </div>
 		    <div class="f24" @click="open()" :class="expand=='展开'?'expand':'unexpand'">{{expand}}</div>
 		</div>
@@ -12,25 +24,30 @@
 		    <div class="f28 mg78">购票需知</div>
 		    <span class="sub f24">当您成功提交订单后，系统将为您保留场地10分钟，如您在10分钟内没有支付，系统将自动取消.</span>
 		</div>
-
+		
+		<div class="pay-container">
+			<payment></payment>
+		</div>
 	</div>
 </template>
 <script>
-	import { mapState, mapGetters } from 'vuex'
+	import { mapState, mapGetters, mapActions } from 'vuex'
 	import * as Constant from 'lib/constEnum'
+	import payment from 'components/payment'
 	export default {
 		name: 'placeorder',
 		data(){
 			return {
                 more: 3,
                 inermore: true,//默认收起
-                expand: "展开"
+                expand: "展开",
+                product: {}
 			}
 		},
+		components: {
+			payment
+		},
 		computed: {
-			product: ()=>{
-				return Constant.sportTypeEnum[this.currsport]
-			},
 			...mapState({
 				spid: state => state.place.address.id,
 				user: state => state.common.user,
@@ -39,6 +56,7 @@
 			...mapGetters(['getGroupResource'])
 		},
 		methods: {
+			...mapActions(['setResourceState']),
 			open(){
 				if(this.expand == "展开"){
                     // this.more = this.carShops.length;
@@ -52,10 +70,14 @@
 			},
             compute_week(date){
             	return Constant.weekdayEnum[new Date(date).getDay()];
+            },
+            select(item){
+            	this.setResourceState(item);
+            	// this.caculatePay();
             }
 		},
 		created(){
-			debugger;
+			this.product = Constant.sportTypeEnum.find(p=>p.id == this.currsport);
 		}
 	}
 </script>

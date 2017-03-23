@@ -16,3 +16,8 @@ Request.GetResourcePrice = (options) =>{
 	return http.get(`${URL.RESOURCE_PRICE}`, options);
 }
 /** 场地相关接口end **/
+/** 会员相关接口start **/
+Request.GetMemberCardInfo = (options) =>{
+	return http.get(`${URL.MEMBER_CARD}`, options);
+}
+/** 会员相关接口end **/
