@@ -41,6 +41,8 @@
 <script>
 	import { mapState, mapGetters, mapActions } from 'vuex'
 	import { Request } from 'service/requests'
+	import { default as message } from '../lib/message'
+	import { getdate } from 'lib/util'
 	export default {
 		name: 'payment',
 		data(){
@@ -53,7 +55,11 @@
 		},
 		computed: {
 			...mapState({
-				user: state => state.common.user
+				spid: state => state.place.address.id,
+				user: state => state.common.user,
+				openid: state => state.common.openid,
+				date: state => state.place.placedate,
+				currsport: state => state.place.currSport
 			}),
 			...mapGetters(['getEffectResource']),
 			bussTotal: {
@@ -110,7 +116,7 @@
 			}
 		},
 		methods: {
-			...mapActions(['setLoading']),
+			...mapActions(['setLoading', 'clearResource']),
             selectCard: function(){
                 if(this.cardPrice){
                     this.cardPrice = 0;
@@ -119,7 +125,7 @@
                 }
                 this.wxPrice = this.amount - this.discount - this.cardPrice;
             },
-            selectWx: function(){debugger;
+            selectWx: function(){
                 if(this.wxPrice){//选中变为非选
                     if(this.ABalance < this.amount - this.discount){
                         this.cardPrice = 0;
@@ -131,13 +137,76 @@
                 }
             },
             submit: function(){
-                // this.$dispatch("submit", this.cardPrice>0, this.wxPrice>0);
+            	if(!this.lastRun){
+                    this.lastRun = lastRun.apply(this);
+                }
+                function lastRun(){
+                	let name="", caculate={}, self = this;
+	                this.getEffectResource.map(function(item){
+	                    name = item.AproductID + getdate(item.AStartDate, '') + item.AGroundFieldAId;
+	                    if (!caculate[name]) {
+	                        caculate[name] = [];
+	                    }
+	                    caculate[name].push(item.AGround_Time_AId);
+	                });
+
+	                for (let item in caculate) {
+	                    let flag = 0;
+	                    caculate[item].map(function (it, ii, arr) {
+	                        if (arr.indexOf(it - 1)==-1 && arr.indexOf(it + 1)==-1) {//前后两个数都不存在
+	                            flag = 1;
+	                            return;
+	                        }else if(arr.indexOf(it + 1)==-1&&arr.indexOf(it + 2)>-1){//后一个数存在但后两个数存在
+	                            flag = 2;
+	                            return;
+	                        }
+	                    });
+	                    if (flag===1) { 
+	                        message.error("最小起订一小时"); return; 
+	                    }else if(flag===2){
+	                        message.error("请不要留下单个半小时"); return;
+	                    }
+	                }
+	                if(this.getEffectResource.length==0) {message.error("您还未选择资源"); return;}
+
+	                    var obj = {
+	                        resource: this.getEffectResource,
+	                        iscardPay: this.cardPrice>0,
+	                        isWXpay: this.wxPrice>0,
+	                        opid: this.openid,
+	                        memid: this.user.memID,
+	                        spid: this.spid
+	                    };
+	                    Request.PostOrder({"": JSON.stringify(obj)}).then((data)=>{
+	                    	debugger;
+                            if(data.payStatus === 0){
+                                //未支付,转微信
+                                self.payAgin(data.orderCode);
+                            }else if(data.payStatus === 1){
+                                //已支付
+                               self.$router.replace({path: '/success', query: {orderCode: data.orderCode}});
+                                // var jpUrl = getServerURL() + "Mobile/jf/pages/index.html#!/success/:orderCode/:accountName/?accountName=" + getLocalData("currentAN") + "&orderCode=" + data.data.orderCode;
+                                
+                                // location.replace(jpUrl);
+                                //self.$router.go({path:'/success',name: 'success', query: {orderCode: data.data.orderCode,accountName: self.$route.query.accountName}});
+                            }
+                            self.clearResource();
+	                    });
+	                    return 1;
+                }
+            },
+            payAgin: function(orderCode){
+                //未支付,转微信
+                var current = getCurrentData();
+                var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + current.payAppID + "&redirect_uri=" +  encodeURIComponent(getServerURL() + "Mobile/JF/pages/wxpay.html?accountName=" + getLocalData("currentAN") + "&orderCode=" + orderCode) + "&showwxpaytitle=1&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+                history.replaceState(null,'','index.html#!/placebook/:productId/:date/:accountName?accountName='+getLocalData("currentAN")+'&date='+this.date+'&productId=' + this.currsport);
+                location.replace(url);
             }
         },
         created(){
         	Request.GetMemberCardInfo({
         		memberId: this.user.memID
-        	}).then(function(data){debugger;
+        	}).then(function(data){
         		this.customer = data;
                 this.ABalance = this.customer && this.customer.ABalance || 0;
                 this.cardPrice = Math.min(this.ABalance, this.amount-this.discount).toFixed(2) -0;

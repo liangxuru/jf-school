@@ -21,14 +21,14 @@
 			}
 		},
 		created(){
-			// this.orderCode = this.$route.query.orderCode;
+			this.orderCode = this.$route.query.orderCode;
 		},
 		methods: {
 			close(){
 				history.back();
 			},
 			view(){
-				this.$routerrouter.push({ name: 'orderlist'})
+				this.$router.push({ name: 'orderlist'})
 			}
 		}
 	}

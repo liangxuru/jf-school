@@ -66,9 +66,6 @@ const actions = {
   },
   setResourceState({ commit}, item){
     commit(types.SET_RESOURCE_STATE, item);
-  },
-  caculatePay({ commit }){
-    commit(types.CACULATE_PAY);
   }
 }
 
@@ -112,11 +109,6 @@ const mutations = {
         return it != item
       });
       item.AStatus =2;
-    });
-  },
-  [types.CACULATE_PAY] (state){
-    state.resource.filter(function(item){
-      return item.AStatus === 1
     });
   }
 }

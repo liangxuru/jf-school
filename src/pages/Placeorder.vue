@@ -34,6 +34,7 @@
 	import { mapState, mapGetters, mapActions } from 'vuex'
 	import * as Constant from 'lib/constEnum'
 	import payment from 'components/payment'
+	import { default as message } from 'lib/message'
 	export default {
 		name: 'placeorder',
 		data(){
@@ -73,7 +74,6 @@
             },
             select(item){
             	this.setResourceState(item);
-            	// this.caculatePay();
             }
 		},
 		created(){

@@ -26,3 +26,5 @@ URL.WEEKDAYS = `${root.host}/Ground/GetWeekdays`;
 URL.RESOURCE_PRICE = `${root.host}/Ground/GetResourcePrice`;
 // 会员信息
 URL.MEMBER_CARD = `${root.host}/Ground/GetMemberCardInfo`;
+//场地-提交订单
+URL.ADD_ORDER = `${root.host}/Ground/CreateOrder`;

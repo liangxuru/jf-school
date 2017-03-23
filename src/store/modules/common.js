@@ -5,7 +5,8 @@ import * as types from '../mutation-types'
 // shape: [{ id, quantity }]
 const state = {
   isLoading: false,
-  user: {}
+  user: {},
+  openid: ''
 }
 
 // getters
@@ -32,7 +33,8 @@ const mutations = {
   },
   //设置当前用户
   [types.SET_USER] (state, platform){
-    state.user = platform;
+    state.user = platform.userData;
+    state.openid = platform.openID;
   }
 }
 

@@ -15,6 +15,9 @@ Request.GetWeekdays = (options) =>{
 Request.GetResourcePrice = (options) =>{
 	return http.get(`${URL.RESOURCE_PRICE}`, options);
 }
+Request.PostOrder = (options) =>{
+	return http.post(`${URL.ADD_ORDER}`, options);
+}
 /** 场地相关接口end **/
 /** 会员相关接口start **/
 Request.GetMemberCardInfo = (options) =>{

@@ -13,5 +13,5 @@ export function go (url) {
 
 export function getdate(_date, split){
 	_date = new Date(_date);
-	return [_date.getFullYear(), _date.getMonth() + 1, _date.getDate()].join(split || '/');
+	return [_date.getFullYear(), _date.getMonth() + 1, _date.getDate()].join(split);
 }
