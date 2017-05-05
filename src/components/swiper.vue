@@ -3,7 +3,7 @@
 	<div class="carousel-image">
 		<Swipe class="my-swipe" :auto="2000">
 			<Swipe-item class="slide slide1" v-for="item in items">
-				<a><img :src="imgServer+item.url" /></a>
+				<a><img :src="(prefix?imgServer:'')+item.url" /></a>
 			</Swipe-item>
 		</Swipe>
 	</div>
@@ -31,6 +31,10 @@
 			current: {
 				type: Number,
 				default: 0
+			},
+			prefix: {
+				type: Boolean,
+				default: true
 			}
 		}
 	}

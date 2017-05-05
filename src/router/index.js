@@ -10,10 +10,10 @@ var router = new Router({
 	saveScrollPosition: true
 });
 
-router.beforeEach((to, from ,next)=>{
-	if(!to.query["accountName"]){
-		to.query["accountName"] = getLocalData("currentAN");
-	}
-	next();
-});
+// router.beforeEach((to, from ,next)=>{
+// 	if(!to.query["accountName"]){
+// 		to.query["accountName"] = getLocalData("currentAN");
+// 	}
+// 	next();
+// });
 export default router = router;

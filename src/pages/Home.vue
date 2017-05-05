@@ -1,6 +1,6 @@
 <template>
 	<div class="content">
-		<swiper v-bind:items="imgs"></swiper>
+		<swiper v-bind:items="imgs" v-bind:prefix="false"></swiper>
 		<div class="bg f28">
 			<div class="part">青少年素质成长</div>
 			<ul class="items">
@@ -106,10 +106,10 @@ export default {
     return {
       imgs: [{
 			id: 1,
-			url: '../resource/banner.png',
+			url: 'http://test.mrich.com/Mobile/jf/resource/banner.png',
 		},{
 			id: 2,
-			url: '../resource/Bitmap3.png'
+			url: 'http://test.mrich.com/Mobile/jf/resource/Bitmap3.png'
 		}],
 	    showYue: false
     }

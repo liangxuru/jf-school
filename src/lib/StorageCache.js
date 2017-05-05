@@ -4,7 +4,7 @@ let store,
     storage = win[localStorageName],
     prefixKey = window.location.hostname || '';
 
-export const WebStorageCache = {
+export default WebStorageCache = {
     get: function (key) {
         key = `${prefixKey}.${key}`;
         var config = storage.getItem(key);

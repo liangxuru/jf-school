@@ -7,6 +7,10 @@ import Success from 'pages/success'
 
 export default [
 	{
+		path: '/',
+		component: Home
+	},
+	{
 		path: '/home',
 		name: 'home',
 		component: Home

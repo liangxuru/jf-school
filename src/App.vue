@@ -29,14 +29,14 @@ export default {
   	//解决移动端click事件300ms的延迟响应
     $(function() {
         FastClick.attach(document.body);
-        checkAuth(()=>{
-          let accountName = getArgs("accountName") || getLocalData("currentAN");
-          if(!accountName){
-            console.error("没有accountName");
-          }
-          self.setUser(getCurrentData());
-          // self.setPosition(accountDic[accountName]); 
-        });
+        // checkAuth(()=>{
+        //   let accountName = getArgs("accountName") || getLocalData("currentAN");
+        //   if(!accountName){
+        //     console.error("没有accountName");
+        //   }
+        //   self.setUser(getCurrentData());
+        //   // self.setPosition(accountDic[accountName]); 
+        // });
     });
   }
 }

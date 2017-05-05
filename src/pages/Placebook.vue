@@ -28,7 +28,7 @@
 		<!-- 购物车 -->
 		<div class="sp_car" v-if="showCar">
 			<header>
-		        <span class="sp_words"> 购物车</span>
+		        <h3 class="sp_words"> 购物车</h3>
 		        <div class="clear">
 		          <span class="icon-icon36" @click="clearShoppingCar()">清空</span>
 		        </div>
