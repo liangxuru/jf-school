@@ -10,7 +10,7 @@ const WEAPON_VERSION = '1.0.2';
 // http://localhost:18130/api/Ground/GetProductsBySportType?SportType=6&spid=10742
 // http://news-at.zhihu.com/api/4/news/latest
 var root = {
-    host: release ? 'http://test.mrich.com/api' : 'http://test.weixin.com/api'
+    host: release && istest? 'http://test.mrich.com/api' : 'http://test.weixin.com/api'
 };
 
 //请求url
